@@ -1,16 +1,88 @@
-# React + Vite
+# GoldenBee
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Sobre o Projeto
 
-Currently, two official plugins are available:
+GoldenBee é uma aplicação web desenvolvida para organizar e acompanhar tours gastronômicos realizados entre colaboradores da empresa.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O objetivo é centralizar o planejamento dos encontros, facilitar a confirmação de presença dos participantes, manter um histórico dos locais visitados e coletar avaliações para auxiliar na escolha dos próximos destinos.
 
-## React Compiler
+## Principais Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* Cadastro e autenticação de usuários.
+* Agendamento de novos tours gastronômicos.
+* Integração com Google Places para pesquisa de restaurantes e obtenção automática de informações como endereço, fotos e localização.
+* Confirmação de participação pelos usuários.
+* Envio de convites de calendário por e-mail (formato ICS).
+* Registro de avaliações após a realização do tour.
+* Histórico completo dos locais visitados.
+* Ranking e estatísticas de locais mais bem avaliados.
+* Sugestão e votação de futuros destinos (funcionalidade futura).
 
-## Expanding the ESLint configuration
+## Tecnologias
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Frontend
+
+* React
+* Material UI
+* React Query
+
+### Backend / Infraestrutura
+
+* Firebase Authentication
+* Firestore Database
+* Firebase Hosting
+
+### Integrações Externas
+
+* Google Places API
+* Google Maps API
+* Serviço de envio de e-mails (Resend)
+
+## Objetivos Técnicos
+
+O projeto foi concebido para possuir arquitetura simples, baixo custo operacional e rápida evolução, utilizando serviços serverless para minimizar a necessidade de infraestrutura própria.
+
+A aplicação deve ser responsiva, intuitiva e de fácil utilização tanto em dispositivos móveis quanto em desktop.
+
+## Estrutura Conceitual
+
+### Usuário
+
+Representa um participante dos tours gastronômicos.
+
+Informações principais:
+
+* Nome
+* E-mail
+* Celular
+
+### Tour
+
+Representa um evento gastronômico agendado.
+
+Informações principais:
+
+* Local escolhido
+* Data e horário
+* Participantes confirmados
+* Avaliações recebidas
+
+### Avaliação
+
+Representa o feedback de um participante após a realização do tour.
+
+Informações principais:
+
+* Nota
+* Comentário
+* Data da avaliação
+
+## Futuras Evoluções
+
+* Sistema de votação para escolha do próximo local.
+* Ranking de participantes mais ativos.
+* Dashboard com estatísticas dos tours.
+
+## Filosofia do Projeto
+
+GoldenBee busca incentivar a integração entre equipes por meio de experiências gastronômicas compartilhadas, tornando o processo de organização simples, transparente e divertido.
