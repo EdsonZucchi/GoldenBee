@@ -5,18 +5,28 @@ import { formatDateTime } from '../utils/date'
 import { colors } from '../theme/tokens'
 
 /** Cartão de exibição de um tour (restaurante, número, data). */
-export default function TourCard({ tour }) {
+export default function TourCard({ tour, onClick }) {
   const { restaurant } = tour
+  const clickable = typeof onClick === 'function'
 
   return (
     <Paper
       elevation={0}
+      onClick={onClick}
       sx={{
         borderRadius: 2,
         overflow: 'hidden',
         bgcolor: 'rgba(255,248,236,.04)',
         border: '1px solid rgba(232,220,200,.12)',
         color: 'text.primary',
+        cursor: clickable ? 'pointer' : 'default',
+        transition: 'border-color .2s, transform .2s',
+        ...(clickable && {
+          '&:hover': {
+            borderColor: 'rgba(245,166,35,.4)',
+            transform: 'translateY(-2px)',
+          },
+        }),
       }}
     >
       <Box

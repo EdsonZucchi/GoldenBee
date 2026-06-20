@@ -1,11 +1,10 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from '../components/ProtectedRoute'
-import RoleRoute from '../components/RoleRoute'
-import MainLayout from '../layout/MainLayout'
+import DashboardLayout from '../layout/DashboardLayout'
 import LandingPage from '../pages/LandingPage'
 import HomePage from '../pages/HomePage'
-import AdminPage from '../pages/AdminPage'
-import { ROLES } from '../constants/roles'
+import ToursPage from '../pages/ToursPage'
+import ComingSoon from '../pages/ComingSoon'
 
 export default function AppRoutes() {
   return (
@@ -13,15 +12,16 @@ export default function AppRoutes() {
       {/* Rota pública (login/cadastro via dialog na landing) */}
       <Route path="/" element={<LandingPage />} />
 
-      {/* Rotas protegidas (área autenticada) */}
+      {/* Área autenticada (sidebar) */}
       <Route element={<ProtectedRoute />}>
-        <Route element={<MainLayout />}>
+        <Route element={<DashboardLayout />}>
           <Route path="/app" element={<HomePage />} />
-
-          {/* Subárea exclusiva de admin */}
-          <Route element={<RoleRoute roles={[ROLES.ADMIN]} />}>
-            <Route path="/app/admin" element={<AdminPage />} />
-          </Route>
+          <Route path="/app/tours" element={<ToursPage />} />
+          <Route path="/app/participantes" element={<ComingSoon title="Participantes" icon="👥" />} />
+          <Route path="/app/avaliacoes" element={<ComingSoon title="Avaliações" icon="⭐" />} />
+          <Route path="/app/estatisticas" element={<ComingSoon title="Estatísticas" icon="📊" />} />
+          <Route path="/app/ranking" element={<ComingSoon title="Ranking" icon="🏆" />} />
+          <Route path="/app/locais" element={<ComingSoon title="Locais" icon="📍" />} />
         </Route>
       </Route>
 

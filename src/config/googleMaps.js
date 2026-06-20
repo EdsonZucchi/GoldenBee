@@ -19,6 +19,10 @@ export const googleMapsConfig = {
 
   // Canal de versão da API ('weekly' | 'quarterly' | número fixo ex.: '3.58').
   version: 'weekly',
+
+  // Map ID exigido pelos AdvancedMarkers. 'DEMO_MAP_ID' serve para
+  // desenvolvimento; em produção crie um Map ID próprio no Cloud Console.
+  mapId: import.meta.env.VITE_GOOGLE_MAPS_MAP_ID || 'DEMO_MAP_ID',
 }
 
 /** True quando a chave está configurada. Útil para desabilitar recursos de mapa. */

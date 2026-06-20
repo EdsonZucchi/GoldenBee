@@ -1,4 +1,5 @@
 import { tourRepository } from '../repository/tourRepository'
+import { participantRepository } from '../repository/participantRepository'
 
 /**
  * Service de tours.
@@ -47,5 +48,23 @@ export const tourService = {
   /** Lista todos os tours (passados e futuros), do mais recente ao mais antigo. */
   listTours() {
     return tourRepository.listAll()
+  },
+
+  /** Lista os participantes confirmados de um tour. */
+  listParticipants(tourId) {
+    return participantRepository.list(tourId)
+  },
+
+  /** Confirma a presença do usuário no tour. */
+  confirmPresence(tourId, user) {
+    return participantRepository.confirm(tourId, user.uid, {
+      name: user.displayName || user.email || 'Participante',
+      email: user.email || null,
+    })
+  },
+
+  /** Cancela a presença do usuário no tour. */
+  cancelPresence(tourId, uid) {
+    return participantRepository.remove(tourId, uid)
   },
 }

@@ -47,6 +47,13 @@ service cloud.firestore {
     match /tours/{tourId} {
       allow read: if true;
       allow create, update, delete: if isAdmin();
+
+      // Participantes confirmados: visíveis a autenticados. Cada usuário só
+      // pode confirmar/cancelar a si mesmo (uid == id do doc); admin também.
+      match /participants/{uid} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      }
     }
   }
 }

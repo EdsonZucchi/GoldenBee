@@ -13,6 +13,39 @@ export function isPast(value) {
   return date ? date.getTime() < Date.now() : false
 }
 
+/** Hora relativa curta, ex.: "hoje 09:12", "ontem 14:30", "12 jul 10:08". */
+export function formatRelativeTime(value) {
+  const date = toDate(value)
+  if (!date) return ''
+  const now = new Date()
+  const time = new Intl.DateTimeFormat('pt-BR', {
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date)
+
+  const yesterday = new Date(now)
+  yesterday.setDate(now.getDate() - 1)
+
+  if (date.toDateString() === now.toDateString()) return `hoje ${time}`
+  if (date.toDateString() === yesterday.toDateString()) return `ontem ${time}`
+
+  const dayMonth = new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: 'short',
+  }).format(date)
+  return `${dayMonth} ${time}`
+}
+
+/** Data curta "dia mês", ex.: "15 jul". */
+export function formatShortDate(value) {
+  const date = toDate(value)
+  if (!date) return '—'
+  const month = new Intl.DateTimeFormat('pt-BR', { month: 'short' })
+    .format(date)
+    .replace('.', '')
+  return `${date.getDate()} ${month}`
+}
+
 /** Formata data e hora em pt-BR, ex.: "sex., 27 de jun. de 2025, 12:30". */
 export function formatDateTime(value) {
   const date = toDate(value)

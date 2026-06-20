@@ -44,9 +44,10 @@ function toRestaurant(place) {
     ? { lat: place.location.lat(), lng: place.location.lng() }
     : null
 
-  const photoUrl = place.photos?.[0]?.getURI
-    ? place.photos[0].getURI({ maxWidth: 800 })
-    : null
+  const photos = (place.photos ?? [])
+    .slice(0, 8)
+    .map((p) => (p.getURI ? p.getURI({ maxWidth: 1000 }) : null))
+    .filter(Boolean)
 
   return {
     placeId: place.id,
@@ -55,7 +56,8 @@ function toRestaurant(place) {
     location,
     rating: place.rating ?? null,
     ratingCount: place.userRatingCount ?? 0,
-    photoUrl,
+    photoUrl: photos[0] ?? null, // capa (cards/listas)
+    photos, // galeria (dialog de detalhes)
     types: place.types ?? [],
   }
 }
