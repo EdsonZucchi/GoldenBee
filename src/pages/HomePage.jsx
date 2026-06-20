@@ -1,8 +1,26 @@
-import { Box, Paper, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Box, CircularProgress, Typography } from '@mui/material'
 import { useAuth } from '../context/AuthContext'
+import { tourService } from '../service/tourService'
+import TourCard from '../components/TourCard'
+import EmptyState from '../components/common/EmptyState'
 
 export default function HomePage() {
   const { user } = useAuth()
+  const [tour, setTour] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let active = true
+    tourService
+      .getNextTour()
+      .then((next) => active && setTour(next))
+      .catch(() => active && setTour(null))
+      .finally(() => active && setLoading(false))
+    return () => {
+      active = false
+    }
+  }, [])
 
   return (
     <Box>
@@ -12,20 +30,28 @@ export default function HomePage() {
       <Typography color="text.secondary" sx={{ mb: 3 }}>
         Bem-vindo ao GoldenBee, sua central de tours gastronômicos.
       </Typography>
-      <Paper
-        elevation={0}
-        sx={{
-          p: 3,
-          borderRadius: 2,
-          bgcolor: 'rgba(255,248,236,.04)',
-          border: '1px solid rgba(232,220,200,.1)',
-          color: 'text.primary',
-        }}
-      >
-        <Typography variant="body1">
-          Em breve: agende tours, confirme presença e avalie os locais visitados.
-        </Typography>
-      </Paper>
+
+      <Typography variant="overline" color="primary">
+        Próximo tour
+      </Typography>
+
+      {loading ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+          <CircularProgress />
+        </Box>
+      ) : tour ? (
+        <Box sx={{ mt: 1 }}>
+          <TourCard tour={tour} />
+        </Box>
+      ) : (
+        <Box sx={{ mt: 1 }}>
+          <EmptyState
+            icon="🗓️"
+            title="Nenhum tour agendado"
+            message="Quando um novo tour for cadastrado, ele aparecerá aqui."
+          />
+        </Box>
+      )}
     </Box>
   )
 }

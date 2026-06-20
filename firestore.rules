@@ -42,5 +42,11 @@ service cloud.firestore {
     match /placeSearches/{searchKey} {
       allow read, write: if isSignedIn();
     }
+
+    // Tours: leitura pública (exibidos na landing); apenas admin escreve.
+    match /tours/{tourId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
   }
 }
