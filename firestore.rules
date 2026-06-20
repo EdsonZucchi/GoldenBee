@@ -32,5 +32,15 @@ service cloud.firestore {
 
       allow delete: if isAdmin();
     }
+
+    // Cache de Places (dados públicos do Google). Qualquer usuário autenticado
+    // pode ler e gravar o cache; o vencimento (30 dias) é controlado no app.
+    match /places/{placeId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /placeSearches/{searchKey} {
+      allow read, write: if isSignedIn();
+    }
   }
 }
