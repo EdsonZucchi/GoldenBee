@@ -1,6 +1,8 @@
 import { AppBar, Box, Button, Container, Toolbar, Typography } from '@mui/material'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import Logo from '../components/Logo'
+import { colors } from '../theme/tokens'
 
 /** Layout principal da aplicação (área autenticada): AppBar + conteúdo. */
 export default function MainLayout() {
@@ -9,20 +11,27 @@ export default function MainLayout() {
 
   async function handleLogout() {
     await logout()
-    navigate('/login')
+    navigate('/')
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'grey.50' }}>
-      <AppBar position="static">
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+      <AppBar
+        position="static"
+        elevation={0}
+        sx={{
+          bgcolor: colors.charcoal,
+          borderBottom: `1px solid rgba(245,166,35,.12)`,
+        }}
+      >
         <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 700 }}>
-            🐝 GoldenBee
-          </Typography>
-          <Typography variant="body2" sx={{ mr: 2 }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Logo size="medium" />
+          </Box>
+          <Typography variant="body2" sx={{ mr: 2, color: colors.sand }}>
             {user?.displayName || user?.email}
           </Typography>
-          <Button color="inherit" onClick={handleLogout}>
+          <Button color="primary" variant="outlined" onClick={handleLogout}>
             Sair
           </Button>
         </Toolbar>

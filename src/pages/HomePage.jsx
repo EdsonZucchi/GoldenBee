@@ -12,7 +12,16 @@ export default function HomePage() {
       <Typography color="text.secondary" sx={{ mb: 3 }}>
         Bem-vindo ao GoldenBee, sua central de tours gastronômicos.
       </Typography>
-      <Paper sx={{ p: 3, borderRadius: 2 }}>
+      <Paper
+        elevation={0}
+        sx={{
+          p: 3,
+          borderRadius: 2,
+          bgcolor: 'rgba(255,248,236,.04)',
+          border: '1px solid rgba(232,220,200,.1)',
+          color: 'text.primary',
+        }}
+      >
         <Typography variant="body1">
           Em breve: agende tours, confirme presença e avalie os locais visitados.
         </Typography>

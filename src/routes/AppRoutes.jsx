@@ -1,21 +1,19 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from '../components/ProtectedRoute'
 import MainLayout from '../layout/MainLayout'
-import LoginPage from '../pages/LoginPage'
-import RegisterPage from '../pages/RegisterPage'
+import LandingPage from '../pages/LandingPage'
 import HomePage from '../pages/HomePage'
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Rotas públicas */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      {/* Rota pública (login/cadastro via dialog na landing) */}
+      <Route path="/" element={<LandingPage />} />
 
-      {/* Rotas protegidas */}
+      {/* Rotas protegidas (área autenticada) */}
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/app" element={<HomePage />} />
         </Route>
       </Route>
 
