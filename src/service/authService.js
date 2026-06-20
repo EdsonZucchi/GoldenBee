@@ -1,5 +1,6 @@
 import { authRepository } from '../repository/authRepository'
 import { userRepository } from '../repository/userRepository'
+import { DEFAULT_ROLE } from '../constants/roles'
 
 /** Traduz códigos de erro do Firebase Auth para mensagens amigáveis (pt-BR). */
 function mapAuthError(error) {
@@ -22,17 +23,29 @@ function mapAuthError(error) {
 export const authService = {
   /**
    * Cadastra um novo usuário: cria a credencial no Auth, define o nome de
-   * exibição e persiste o perfil (nome, e-mail, celular) no Firestore.
+   * exibição e persiste o perfil (nome, e-mail, celular, role) no Firestore.
+   * Todo novo usuário recebe o papel `default`; a promoção a `admin` é feita
+   * manualmente no Firebase Console.
    */
   async register({ name, email, phone, password }) {
     try {
       const { user } = await authRepository.createUser(email, password)
       await authRepository.updateDisplayName(user, name)
-      await userRepository.save(user.uid, { name, email, phone })
+      await userRepository.save(user.uid, {
+        name,
+        email,
+        phone,
+        role: DEFAULT_ROLE,
+      })
       return user
     } catch (error) {
       throw mapAuthError(error)
     }
+  },
+
+  /** Busca o perfil (incluindo role) do usuário no Firestore. */
+  getProfile(uid) {
+    return userRepository.findById(uid)
   },
 
   async login({ email, password }) {

@@ -6,7 +6,7 @@ import { colors } from '../theme/tokens'
 
 /** Layout principal da aplicação (área autenticada): AppBar + conteúdo. */
 export default function MainLayout() {
-  const { user, logout } = useAuth()
+  const { user, isAdmin, logout } = useAuth()
   const navigate = useNavigate()
 
   async function handleLogout() {
@@ -26,8 +26,26 @@ export default function MainLayout() {
       >
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <Logo size="medium" />
+            <Box
+              component="button"
+              onClick={() => navigate('/app')}
+              aria-label="Ir para a página inicial"
+              sx={{
+                background: 'none',
+                border: 'none',
+                p: 0,
+                cursor: 'pointer',
+                display: 'inline-flex',
+              }}
+            >
+              <Logo size="medium" />
+            </Box>
           </Box>
+          {isAdmin && (
+            <Button color="inherit" sx={{ mr: 1 }} onClick={() => navigate('/app/admin')}>
+              Admin
+            </Button>
+          )}
           <Typography variant="body2" sx={{ mr: 2, color: colors.sand }}>
             {user?.displayName || user?.email}
           </Typography>

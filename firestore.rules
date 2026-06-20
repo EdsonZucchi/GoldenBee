@@ -1,0 +1,36 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /users/{userId} {
+      // O usuário lê o próprio perfil; admins leem qualquer um.
+      allow read: if isOwner(userId) || isAdmin();
+
+      // No cadastro o próprio usuário cria seu documento, mas só com role 'default'.
+      allow create: if isOwner(userId)
+        && request.resource.data.role == 'default';
+
+      // Usuário comum atualiza o próprio perfil, EXCETO o campo role.
+      // Admins podem tudo (inclusive promover/rebaixar papéis).
+      allow update: if isAdmin()
+        || (isOwner(userId) && request.resource.data.role == resource.data.role);
+
+      allow delete: if isAdmin();
+    }
+  }
+}
